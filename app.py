@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from factory import ServiceFactory
 import service as svc
+import model
 
 
 app = Flask(__name__)
@@ -35,6 +36,10 @@ def transfer_money():
 
     service = ServiceFactory.bank_account()
 
-    service.transfer_money(source_acc, target_acc, amount)
+    try:
+        service.transfer_money(source_acc, target_acc, amount)
+    except model.InsufficientFoundsException:
+        return create_message('Not enough founds', 400)
+
 
     return create_message('Success', 200)

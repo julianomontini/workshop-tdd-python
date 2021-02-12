@@ -5,13 +5,13 @@ import orm
 from service import BankAccountService
 from repository import AlchemyBankAccountRepository, CsvBankAccountRepository
 
-DB_URL = "sqlite:////Users/julianomontini/PycharmProjects/tdd-1/main.db"
+DB_URL = "postgres://juliano:mysecretpassword@localhost:5432/app"
 
 class ServiceFactory:
     engine = None
 
     @classmethod
-    def get_session(cls):
+    def get_session(cls) -> Session:
         if cls.engine is None:
             cls.engine = create_engine(DB_URL)
             orm.metadata.create_all(cls.engine)

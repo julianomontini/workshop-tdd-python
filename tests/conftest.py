@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, clear_mappers
 import orm
 import pytest
+from factory import ServiceFactory
 
 @pytest.fixture()
 def session_factory():
@@ -17,3 +18,8 @@ def session_factory():
 @pytest.fixture()
 def session(session_factory):
     return session_factory()
+
+@pytest.fixture()
+def e2e_session():
+    yield ServiceFactory.get_session()
+    clear_mappers()
